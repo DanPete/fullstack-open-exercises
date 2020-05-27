@@ -1,12 +1,35 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Heading = ({text}) => {
+  return (
+    <h1>{text}</h1>
+  )
+}
+
+const Anecdote = ({ points, selected}) => {
+  return (
+    <>
+      <h3>{anecdotes[selected]}</h3>
+      <Votes points={points} selected={selected} />
+    </>
+  )
+
+}
+
 const Button = ({text, handleClick}) => (
   <button onClick={handleClick}>{text}</button>
 )
 
+const Votes = ({ points, selected }) => {
+  return (
+    <p>has {points[selected] || 0} votes</p>
+  )
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState({})
 
   const handleRandom = () => {
     let randomEle = selected
@@ -16,10 +39,26 @@ const App = (props) => {
     setSelected(randomEle)
   }
 
+  const incrementVote = () => {
+    const selectedVote = points[selected] || 0
+    setPoints({...points, [selected]: selectedVote + 1})
+  }
+
+  const mostVotes = Object.keys(points).reduce((a, b) => points[a] > points[b] ? a : b, 0)
+  console.log(mostVotes)
+
   return (
     <div>
-      <h3>{props.anecdotes[selected]}</h3>
+      <Heading text="Anecdote of the day" />
+      <Anecdote points={points} selected={selected}/>
+      <Button text="vote" handleClick={incrementVote}/>
       <Button text="next anecdote" handleClick={handleRandom}/>
+      <Heading text="Anecdote with the most votes" />
+      {Object.entries(points).length ? (
+        <Anecdote points={points} selected={mostVotes} />
+      ) : (
+        <p>No votes yet</p>
+      )}
     </div>
   )
 }
