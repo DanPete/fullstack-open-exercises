@@ -1,0 +1,10 @@
+note over browser:
+browser intercept form sumbit
+execute JavaScript code to add note to note list
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over browser:
+ send note to server as application/json with content as form value
+end note
