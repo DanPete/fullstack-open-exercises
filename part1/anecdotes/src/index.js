@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 const Heading = ({text}) => {
@@ -30,6 +30,11 @@ const Votes = ({ points, selected }) => {
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState({})
+  const [highestPoints, setHighestPoints] = useState(0)
+
+  useEffect(() => {
+    handleRandom()
+  }, [])
 
   const handleRandom = () => {
     let randomEle = selected
@@ -42,10 +47,11 @@ const App = (props) => {
   const incrementVote = () => {
     const selectedVote = points[selected] || 0
     setPoints({...points, [selected]: selectedVote + 1})
-  }
 
-  const mostVotes = Object.keys(points).reduce((a, b) => points[a] > points[b] ? a : b, 0)
-  console.log(mostVotes)
+    if(!points[highestPoints] || selectedVote + 1 > points[highestPoints]) {
+      setHighestPoints(selected)
+    }
+  }
 
   return (
     <div>
@@ -55,7 +61,7 @@ const App = (props) => {
       <Button text="next anecdote" handleClick={handleRandom}/>
       <Heading text="Anecdote with the most votes" />
       {Object.entries(points).length ? (
-        <Anecdote points={points} selected={mostVotes} />
+        <Anecdote points={points} selected={highestPoints} />
       ) : (
         <p>No votes yet</p>
       )}
