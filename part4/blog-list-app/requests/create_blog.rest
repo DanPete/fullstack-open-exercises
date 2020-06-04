@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRhbnBldGUiLCJpZCI6IjVlZDhlMzViNGI4ZTk5MTBlMjg0MDBhZSIsImlhdCI6MTU5MTI3NzM5OX0.y8vou2E2lkEp-5eutIBucW5355FwgaG5_xp9KNgiJms
+
+{
+  "title": "Test with Auth middleware",
+  "author": "Dan",
+  "url": "dansack.dev",
+  "likes": 500
+}
